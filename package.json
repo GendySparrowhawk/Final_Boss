@@ -1,0 +1,25 @@
+{
+  "name": "final_boss",
+  "version": "1.0.0",
+  "description": "A customer pull list database for a comic shop. Prototype",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/client": "^3.11.4",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "graphql": "^16.9.0",
+    "graphql-upload": "^16.0.2",
+    "mongodb": "^6.8.0",
+    "mongoose": "^8.5.2",
+    "node": "^22.6.0",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
