@@ -6,7 +6,8 @@ const Comic = require('./Comic');
 const pullListSchema = new Schema ({
     customer: {
         type: Schema.Types.ObjectId,
-        ref: "Customer"
+        ref: "Customer",
+        required: true
     },
     comics: [{
         type: Schema.Types.ObjectId,

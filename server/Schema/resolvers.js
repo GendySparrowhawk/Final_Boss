@@ -1,0 +1,1 @@
+const customer_resolvers = require('./lib')

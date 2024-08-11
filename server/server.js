@@ -1,16 +1,17 @@
 const express = require("express");
 
-const { ApolloServer } = require("@apollo/server");
-const { expressMiddleware } = require("@apllo/server/express4");
-const { graphqlUploadExpress } = require("graphql-upload");
+const { ApolloServer } = require('@apollo/server');
+const { expressMiddleware } = require('@apollo/server/express4');
+const { graphqlUploadExpress } = require('graphql-upload');
+const exphbs = require("express-handlebars");
+const path = require("path");
+require("dotenv").config();
 
 const app = express();
 
 const PORT = process.env.PORT || 3333;
 const is_prod = process.env.NODE_ENV === "production";
-const path = require("path");
 
-require("dotenv").config();
 
 const db = require("./config/connection");
 
@@ -24,6 +25,8 @@ const server = new ApolloServer({
 async function startServer() {
   await server.start();
 
+  app.engine('handlebars', exphbs());
+  app.set('view engine', 'handlebars')
   app.use(express.json());
 
   if (is_prod) {
