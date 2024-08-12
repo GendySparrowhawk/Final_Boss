@@ -1,1 +1,1 @@
-const customer_resolvers = require('./lib')
+const customer_resolvers = require('../Schema/lib/customer_resolvers')

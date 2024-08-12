@@ -1,9 +1,8 @@
 const express = require("express");
-
-const { ApolloServer } = require('@apollo/server');
-const { expressMiddleware } = require('@apollo/server/express4');
-const { graphqlUploadExpress } = require('graphql-upload');
+const { ApolloServer } = require("@apollo/server");
+const { expressMiddleware } = require("@apollo/server/express4");
 const exphbs = require("express-handlebars");
+// const { graphqlUploadExpress } = require('graphql-upload');
 const path = require("path");
 require("dotenv").config();
 
@@ -12,9 +11,7 @@ const app = express();
 const PORT = process.env.PORT || 3333;
 const is_prod = process.env.NODE_ENV === "production";
 
-
 const db = require("./config/connection");
-
 const { typeDefs, resolvers } = require("./schema");
 
 const server = new ApolloServer({
@@ -24,39 +21,32 @@ const server = new ApolloServer({
 
 async function startServer() {
   await server.start();
+  console.log("Views directory:", path.join(__dirname, "../views"));
+console.log("Public directory:", path.join(__dirname, "../public"));
 
-  app.engine('handlebars', exphbs());
-  app.set('view engine', 'handlebars')
+
+  const hbs = exphbs.create({});
+  app.engine("handlebars", hbs.engine);
+  app.set("view engine", "handlebars");
+  app.set("views", path.join(__dirname, "../views"));
+
+  app.use(express.static(path.join(__dirname, "../public")));
+
   app.use(express.json());
 
-  if (is_prod) {
-    app.use(express.static(path.join(__dirname, "../client/dist")));
-  }
+  app.use(express.static("./public"));
 
-  app.use(express.static("public"));
-
-  app.use(
-    "/graphql",
-    graphqlUploadExpress({
-      maxFileSize: 10 * 100 * 1000,
-    }),
-    expressMiddleware(server, {
-      context: authenticate,
-    })
-  );
-
-  if (is_prod) {
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(__dirname, "../client/dist/index.html"));
-    });
-  }
+  app.use("/graphql", expressMiddleware(server));
+  app.get("/", (req, res) => {
+    res.render("main");
+  });
 
   db.once("open", () => {
-    console.log("Databse connected");
+    console.log("final Boss bossing");
 
     app.listen(PORT, () => {
-      console.log("Server started on port", PORT);
-      console.log("GrpahQL readt at /graphql");
+      console.log("Server started on port: ", PORT);
+      console.log("GrahQL ready");
     });
   });
 }

@@ -6,14 +6,14 @@ const typeDefs = gql`
   type Comic {
     _id: ID!
     title: String!
-    issueNumber: Number!
+    issueNumber: Int!       
     series: Series
     releaseDate: String
     coverVariant: String
     isIncentiveCover: Boolean
   }
 
-  type PullList {
+  type PullList {          
     _id: ID!
     customer: Customer
     comics: [Comic]
@@ -30,7 +30,7 @@ const typeDefs = gql`
   type Customer {
     _id: ID
     name: String
-    email: Sting
+    email: String          
     phoneNumber: String
     pullList: PullList
   }
@@ -38,16 +38,26 @@ const typeDefs = gql`
   type Query {
     comics: [Comic]
     comic(id: ID!): Comic
-    pullLists: [pullList]
+    pullLists: [PullList]   
     pullList(id: ID!): PullList
-    series:[Series]
+    allSeries: [Series]
     series(id: ID!): Series
     customers: [Customer]
     customer(id: ID!): Customer
   }
 
   type Mutation {
-    createComic(title: String!, issueNumber: Int!, series: ID, releaseDate: String, coverVariant: String, isIncentiveCover: Boolean): Comic
-    updateComic(id: ID!, title: String!)
+    createComic(
+      title: String!, 
+      issueNumber: Int!,     
+      series: ID, 
+      releaseDate: String, 
+      coverVariant: String, 
+      isIncentiveCover: Boolean
+    ): Comic
+    
+    updateComic(id: ID!, title: String!): Comic
   }
 `;
+
+module.exports = typeDefs;
