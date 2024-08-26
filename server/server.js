@@ -38,7 +38,7 @@ console.log("Public directory:", path.join(__dirname, "../public"));
 
   app.use("/graphql", expressMiddleware(server));
   app.get("/", (req, res) => {
-    res.render("main");
+    res.render("index");
   });
 
   db.once("open", () => {
